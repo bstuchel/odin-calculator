@@ -71,9 +71,7 @@ function clickNumber() {
 function clickOperator() {
     if (op) {
         num1 = operate(op, num1, parseFloat(displayValue));
-        console.log(num1);
         displayValue = String(num1);
-        console.log(displayValue);
         if (displayValue.length > 7) {
             display.innerHTML = displayValue.substring(0,7);
         } else {
