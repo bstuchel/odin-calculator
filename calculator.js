@@ -43,10 +43,13 @@ function clear() {
     displayValue = '0';
     num1 = 0;
     op = null;
-    display.innerHTML = displayValue;
+    display.innerHTML = '0';
 }
 
 function clickNumber() {
+    if (!op && displayValue == '0') {
+        clear();
+    }
     if (this.innerHTML === '.') {
         if (!displayValue.includes('.')) {
             displayValue += '.';
@@ -58,35 +61,45 @@ function clickNumber() {
             displayValue = displayValue + this.innerHTML;
         }
     }
-    display.innerHTML = displayValue;
+    if (displayValue.length > 7) {
+        display.innerHTML = displayValue.substring(0,7);
+    } else {
+        display.innerHTML = displayValue;
+    }
 }
 
 function clickOperator() {
+    if (op) {
+        num1 = operate(op, num1, parseFloat(displayValue));
+        console.log(num1);
+        displayValue = String(num1);
+        console.log(displayValue);
+        if (displayValue.length > 7) {
+            display.innerHTML = displayValue.substring(0,7);
+        } else {
+            display.innerHTML = displayValue;
+        }
+        displayValue = '0';
+    } else if (displayValue != '0') {
+        num1 = parseFloat(displayValue);
+        displayValue = '0';
+    }
     switch (this.innerHTML) {
         case '÷':
-            num1 = parseFloat(displayValue);
             op = divide;
-            displayValue = '0';
             break;
         case '×':
-            num1 = parseFloat(displayValue);
             op = multiply;
-            displayValue = '0';
             break;
         case '+':
-            num1 = parseFloat(displayValue);
             op = add;
-            displayValue = '0';
             break;
         case '-':
-            num1 = parseFloat(displayValue);
             op = subtract;
-            displayValue = '0';
             break;
         case '=':
-            num1 = operate(op, num1, parseFloat(displayValue));
-            display.innerHTML = num1;
-            displayValue = display.innerHTML;
+            op = null;
+            break;
     }
 }
 
